@@ -27,7 +27,10 @@ export default function Register(props) {
 	const dispatch = useAuthDispatch();
 
 	const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
-		onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
+		onError: (err) => {
+			console.log(err);
+			setErrors(err.graphQLErrors[0].extensions.errors);
+		},
 		onCompleted(data) {
 			dispatch({ type: 'LOGIN', payload: data.login });
 			window.location.href = '/';

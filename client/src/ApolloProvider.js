@@ -10,7 +10,9 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 
 let httpLink = createHttpLink({
-	uri: '/graphql/',
+	// uri: '/graphql/',
+	uri: 'http://localhost:4000/',
+	// credentials: 'include',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -27,10 +29,12 @@ const authLink = setContext((_, { headers }) => {
 
 httpLink = authLink.concat(httpLink);
 
-const host = window.location.host;
+// const host = window.location.host;
+const host = 'localhost:4000';
 
 const wsLink = new WebSocketLink({
-	uri: `ws://${host}/graphql/`,
+	// uri: `ws://${host}/graphql/`,
+	uri: `ws://localhost:4000/`,
 	options: {
 		reconnect: true,
 		connectionParams: {
@@ -50,6 +54,8 @@ const splitLink = split(
 	wsLink,
 	httpLink
 );
+
+console.log(splitLink);
 
 const client = new ApolloClient({
 	link: splitLink,
